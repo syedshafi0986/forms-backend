@@ -1,7 +1,7 @@
-import User from '../models/userModel';
+import User from '../models/userModel.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import cookieParser from 'cookie-parser';
+// import cookieParser from 'cookie-parser';
 
 
 const saltRounds = 10;
@@ -12,7 +12,7 @@ const createToken = (_id) => {
 };
 
 const register = async (req, res) => {
-  const { name, password } = req.body;
+  const { name,email, password } = req.body;
 
   try {
     // Check if the user already exists
@@ -25,7 +25,7 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Create a new user with the hashed password
-    const create_user = await User.create({ name, password: hashedPassword });
+    const create_user = await User.create({ name,email, password: hashedPassword });
 
     // Generate a token
     const token = createToken(create_user._id);
