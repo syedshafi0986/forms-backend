@@ -19,5 +19,15 @@ const createQuestion= async(req , res)=>{
                   return res.status(400).json({ message: 'options are required for choice questions' });
 
         }
+        const question = {type,text,options:options.map(o=>{text:o}),required:!!required}
+        form.questions.push(question);
+        await form.save();
+        res.status(201).json(form.questions[form.questions.length - 1]);
+
     }
+    catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+
 }
