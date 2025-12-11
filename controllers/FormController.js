@@ -1,5 +1,6 @@
 import User from "../models/userModel.js";
 import Form from "../models/Form.js";
+import mongoose from "mongoose";
 
 export const createForms =async (req,res)=>{
     try{
@@ -60,9 +61,25 @@ const updateForm = async(req,res)=>{
         const updates = (({title, description, isActive})=>({title, description, isActive}))(req.body);
         const form = await Form.findById(id);
         if(form.creatorId.toString() !== req.user.id ) return res.status(403).json({ message: 'Forbidden' });
-
+        Object.keys(form).forEach(k=>{
+            if(updates[k]!==undefined) form[k]=updates[k]
+        })
+        await form.save();
+        res.status(200).json(form)
     }
     catch(e){
+            res.status(500).json({ message: e.message });
+
+    }
+}
+
+// delete form
+const deleteForm = async(req,res)=>{
+    try{
+        const {id} =req.params;
+        const deletedForm = await Form.findByIdAndDelete(id);
+        res.status(200).json(deleteForm)
+    }catch(e){
             res.status(500).json({ message: e.message });
 
     }

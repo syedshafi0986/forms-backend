@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Question from './Question.js';
 
 const FormSchema = new mongoose.Schema(
   {
@@ -10,6 +11,8 @@ const FormSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+      questions: { type: [Question], default: [] },
+
     creatorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
