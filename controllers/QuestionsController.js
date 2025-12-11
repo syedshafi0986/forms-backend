@@ -57,3 +57,22 @@ const updateQuestion = async(req,res)=>{
     res.status(500).json({ message: 'Server error' });
   }
 }
+
+// delete question
+const DeleteQuestion = async(req,res)=>{
+    try{
+        const {formID,id:questionId} = req.params;
+        const form = await Form.findById(id);
+        if (form.creatorId.toString() !== req.user.id) return res.status(403).json({ message: 'Forbidden' });
+        const q = form.questions.id(questionId)
+            if (!q) return res.status(404).json({ message: 'Question not found' });
+        q.remove();
+        await form.save()
+
+ res.json({ message: 'Question removed' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+
+}
