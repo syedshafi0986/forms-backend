@@ -24,8 +24,18 @@ const submitResponse = async(req , res)=>{
        if (!questionIds.includes(String(a.questionId))) {
         return res.status(400).json({ message: `questionId ${a.questionId} is invalid` });
       }
-        }
+        
+        // filtering out the exact required questions 
+        const reqr = form.questions.filter(r=>r.required).map(q=>q._id.toString())
+       
+        for(const r in reqr)
+        {
+          if(answers.some(a=> a.questionId===r && a.answers!== undefined && a.a.answers!== null && a.answers!=='')){
+                    return res.status(400).json({ message: 'All required questions must be answered' });
 
+          }
+        }
+      }
      }catch(e){
          console.error(err);
     res.status(500).json({ message: 'Server error' });
