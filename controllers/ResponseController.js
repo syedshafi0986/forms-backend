@@ -30,11 +30,18 @@ const submitResponse = async(req , res)=>{
        
         for(const r in reqr)
         {
-          if(answers.some(a=> a.questionId===r && a.answers!== undefined && a.a.answers!== null && a.answers!=='')){
+          if(!answers.some(a=> a.questionId===r && a.answers!== undefined && a.a.answers!== null && a.answers!=='')){
                     return res.status(400).json({ message: 'All required questions must be answered' });
 
           }
         }
+        const resp = new Response({
+      formId,
+      responderId: req.user?.id ?? responderId ?? null, // if user logged in use req.user.id
+      answers
+    });
+    await resp.save();
+    res.status(201).json({ message: 'Response submitted', id: resp._id });
       }
      }catch(e){
          console.error(err);
