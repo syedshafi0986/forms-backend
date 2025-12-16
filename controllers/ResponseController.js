@@ -27,9 +27,11 @@ const submitResponse = async(req , res)=>{
         
         // filtering out the exact required questions 
         const reqr = form.questions.filter(r=>r.required).map(q=>q._id.toString())
+        console.log(reqr)
        
         for(const r in reqr)
         {
+          console.log(r)
           if(!answers.some(a=> a.questionId===r && a.answers!== undefined && a.a.answers!== null && a.answers!=='')){
                     return res.status(400).json({ message: 'All required questions must be answered' });
 
@@ -49,5 +51,24 @@ const submitResponse = async(req , res)=>{
      }
 }
 
+// get the response 
+const getResponse = async (req,res)=>{
+  try{
+    const {formId} = req.params;
+        if (!mongoose.Types.ObjectId.isValid(formId)) return res.status(400).json({ message: 'Invalid formId' });
+    const form = await Form.findById(formId);
+        if (!form) return res.status(404).json({ message: 'Form not found' });
+    if (form.creatorId.toString() !== req.user.id) return res.status(403).json({ message: 'Forbidden' });
 
+    const responses = await Response.find({formId}).sort({submittedAt:-1})
+    res.status(200).json(responses)
+  }catch(e){
+         console.error(err);
+    res.status(500).json({ message: 'Server error' });
+     }
+}
 
+export{
+  submitResponse,
+  getResponse
+}
