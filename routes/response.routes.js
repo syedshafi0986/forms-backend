@@ -5,7 +5,7 @@ import {
   getSingleResponse
 } from '../controllers/response.controller.js';
 
-import { auth, authOptional } from '../middleware/auth.js';
+import { router as authroute } from './authRoutes.js';
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ const router = express.Router();
 // Submit response
 // - Works for anonymous users
 // - responderId set only if logged in
-router.post('/forms/:formId/responses', authOptional, submitResponse);
+router.post('/forms/:formId/responses', submitResponse);
 
 // Get all responses of a form (creator only)
 router.get('/forms/:formId/responses', auth, getResponsesByForm);
