@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use("/auth",authroute)
-app.use("/api",formRouter)
+app.use("/api/forms",formRouter)
 app.use("/api",responseRouter)
 
 // Connect to MongoDB
