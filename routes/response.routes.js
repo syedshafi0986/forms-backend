@@ -14,9 +14,9 @@ const router = express.Router();
 router.post('/forms/:formId/responses', submitResponse);
 
 // Get all responses of a form (creator only)
-router.get('/forms/:formId/responses', auth, getResponsesByForm);
+router.get('/forms/:formId/responses', authroute, getResponsesByForm);
 
 // Get single response (creator only)
-router.get('/responses/:responseId', auth, getSingleResponse);
+router.get('/responses/:responseId', authroute, getSingleResponse);
 
 export default router;

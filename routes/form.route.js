@@ -8,36 +8,35 @@ import { createQuestion,
     updateQuestion,
     DeleteQuestion } from '../controllers/QuestionsController.js';
 
-import { auth } from '../middleware/auth.js';
-
+import { requireAuth } from '../middleware/requireAuth.js';
 const router = express.Router();
 
 /* ---------------- FORM ---------------- */
 
 // Create form
-router.post('/', auth, createForms);
+router.post('/', requireAuth, createForms);
 
 // Get form (public – for filling)
 router.get('/:formId', getForm);
 
 // Get all forms created by a user
-router.get('/user/:userId', auth, getUserForm);
+router.get('/user/:userId', requireAuth, getUserForm);
 
 // Update form
-router.put('/:formId', auth,updateForm);
+router.put('/:formId', requireAuth,updateForm);
 
 // Delete form
-router.delete('/:formId', auth, deleteForm);
+router.delete('/:formId', requireAuth, deleteForm);
 
 /* ---------------- QUESTIONS (embedded) ---------------- */
 
 // Add question
-router.post('/:formId/questions', auth, createQuestion);
+router.post('/:formId/questions', requireAuth, createQuestion);
 
 // Update question
-router.put('/:formId/questions/:questionId', auth, updateQuestion);
+router.put('/:formId/questions/:questionId', requireAuth, updateQuestion);
 
 // Delete question
-router.delete('/:formId/questions/:questionId', auth, DeleteQuestion);
+router.delete('/:formId/questions/:questionId', requireAuth, DeleteQuestion);
 
 export default router;
