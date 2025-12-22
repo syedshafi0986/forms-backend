@@ -2,8 +2,7 @@ import express from 'express';
 import { submitResponse,
   getResponse } from '../controllers/ResponseController.js';
 
-import { router as authroute } from './authRoutes.js';
-
+import { requireAuth } from '../middleware/requireAuth.js';
 const router = express.Router();
 
 /* ---------------- RESPONSES ---------------- */
@@ -14,9 +13,9 @@ const router = express.Router();
 router.post('/forms/:formId/responses', submitResponse);
 
 // Get all responses of a form (creator only)
-router.get('/forms/:formId/responses', authroute, getResponsesByForm);
+router.get('/forms/:formId/responses', requireAuth, getResponse);
 
 // Get single response (creator only)
-router.get('/responses/:responseId', authroute, getSingleResponse);
+// router.get('/responses/:responseId', authroue, getSingleResponse);
 
-export default router;
+export  {router};

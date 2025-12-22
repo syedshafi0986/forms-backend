@@ -39,4 +39,4 @@ router.put('/:formId/questions/:questionId', requireAuth, updateQuestion);
 // Delete question
 router.delete('/:formId/questions/:questionId', requireAuth, DeleteQuestion);
 
-export default router;
+export {router};
