@@ -1,9 +1,6 @@
 import express from 'express';
-import {
-  submitResponse,
-  getResponsesByForm,
-  getSingleResponse
-} from '../controllers/response.controller.js';
+import { submitResponse,
+  getResponse } from '../controllers/ResponseController.js';
 
 import { router as authroute } from './authRoutes.js';
 
