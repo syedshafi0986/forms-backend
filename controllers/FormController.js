@@ -84,3 +84,11 @@ const deleteForm = async(req,res)=>{
 
     }
 }
+
+export {
+    createForms,
+    updateForm,
+    deleteForm,
+    getForm,
+    getUserForm
+}

@@ -76,3 +76,9 @@ const DeleteQuestion = async(req,res)=>{
   }
 
 }
+
+export {
+    createQuestion,
+    updateQuestion,
+    DeleteQuestion
+}
