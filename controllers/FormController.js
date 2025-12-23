@@ -1,8 +1,8 @@
 import User from "../models/userModel.js";
 import Form from "../models/Form.js";
 import mongoose from "mongoose";
-
-export const createForms =async (req,res)=>{
+ 
+const createForms =async (req,res)=>{
     try{
      const { title, description, isActive } = req.body;
     if (!title) return res.status(400).json({ message: 'Title is required' });

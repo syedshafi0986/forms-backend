@@ -30,9 +30,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ❌ Removed pre-save hashing
-// ❌ Removed matchPassword method
-// ✅ Keep schema pure and lean
+
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 export default User;
