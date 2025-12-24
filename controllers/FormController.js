@@ -27,10 +27,13 @@ const createForms =async (req,res)=>{
 // get form details (public)
 const getForm = async(req,res)=>{
     try{
-    const {id} = req.params;
-    const formDetails = await Form.findById({id})
+    const {formId} = req.params;
+    console.log(formId)
+    const formDetails = await Form.findById(formId)
+    console.log(formDetails)
         if (!formDetails) return res.status(404).json({ message: 'Form not found' });
     res.status(200).json(formDetails);
+    // res.status(200).json(formDetails)
 
     }catch(e){
             res.status(500).json({ message: e.message });
@@ -45,9 +48,10 @@ const getUserForm = async(req,res)=>{
 
     try{
         const userId = req.params.userId ?? req.user.id;
-            if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: 'Invalid id' });
+            if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({ message: 'Invalid id' });
         const userForms = await Form.find({creatorId:userId}).sort({createdAt:-1})
         res.status(201).json(userForms)
+        
     }catch(e){
             res.status(500).json({ message: e.message });
 
