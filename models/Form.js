@@ -1,30 +1,47 @@
 import mongoose from 'mongoose';
-import Question from './Question.js';
+
+const OptionSchema = new mongoose.Schema({
+  text: { type: String, required: true },
+});
+
+const QuestionSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ['text', 'multiple_choice', 'checkbox', 'rating'],
+    required: true,
+  },
+  text: {
+    type: String,
+    required: true,
+  },
+  options: {
+    type: [OptionSchema],
+    default: [],
+  },
+  required: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const FormSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
+    title: { type: String, required: true },
+    description: { type: String, default: '' },
+
+    questions: {
+      type: [QuestionSchema], // ✅ SCHEMA, NOT MODEL
+      default: [],
     },
-    description: {
-      type: String,
-      default: '',
-    },
-      questions: { type: [Question], default: [] },
 
     creatorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
+    isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
 
-const Form = mongoose.model('Form', FormSchema);
-export default Form;
+export default mongoose.model('Form', FormSchema);

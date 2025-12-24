@@ -1,5 +1,4 @@
 import Form from "../models/Form.js";
-import Question from "../models/Question.js";
 import mongoose from "mongoose";
 
 // create question
@@ -62,7 +61,7 @@ const updateQuestion = async(req,res)=>{
 const DeleteQuestion = async(req,res)=>{
     try{
         const {formID,id:questionId} = req.params;
-        const form = await Form.findById(id);
+        const form = await Form.findById(formID);
         if (form.creatorId.toString() !== req.user.id) return res.status(403).json({ message: 'Forbidden' });
         const q = form.questions.id(questionId)
             if (!q) return res.status(404).json({ message: 'Question not found' });

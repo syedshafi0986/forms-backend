@@ -20,7 +20,7 @@ app.use("/api",responseRouter)
 connectDB();
 
 app.get("/", (req, res) => {
-  res.send("Google Forms backend is running...");
+  res.send("Google Forms backend is running ...");
 });
 
 const PORT = process.env.PORT || 5000;
