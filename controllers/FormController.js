@@ -10,7 +10,7 @@ const createForms =async (req,res)=>{
     const form = new Form({
         title,
         description,
-        creatorId:req.User.id,
+        creatorId:req.user.id,
         isActive:isActive?? true
     })
 
