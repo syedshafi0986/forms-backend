@@ -61,9 +61,9 @@ const getUserForm = async(req,res)=>{
 // updating the form 
 const updateForm = async(req,res)=>{
     try{
-        const {id} = req.params
+        const {formId} = req.params
         const updates = (({title, description, isActive})=>({title, description, isActive}))(req.body);
-        const form = await Form.findById(id);
+        const form = await Form.findById(formId);
         if(form.creatorId.toString() !== req.user.id ) return res.status(403).json({ message: 'Forbidden' });
         Object.keys(form).forEach(k=>{
             if(updates[k]!==undefined) form[k]=updates[k]
