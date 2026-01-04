@@ -6,6 +6,7 @@ const createQuestion= async(req , res)=>{
     try{
         const {formId}= req.params;
         const {type,text,options=[],required}= req.body;
+        console.log("the form id:",formId)
 
             if (!type || !text) return res.status(400).json({ message: 'type and text are required' });
         const form = await Form.findById(formId)

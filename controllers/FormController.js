@@ -65,9 +65,10 @@ const updateForm = async(req,res)=>{
         const updates = (({title, description, isActive})=>({title, description, isActive}))(req.body);
         const form = await Form.findById(formId);
         if(form.creatorId.toString() !== req.user.id ) return res.status(403).json({ message: 'Forbidden' });
-        Object.keys(form).forEach(k=>{
+        Object.keys(updates).forEach(k=>{
             if(updates[k]!==undefined) form[k]=updates[k]
         })
+        console.log("updates :",form)
         await form.save();
         res.status(200).json(form)
     }
@@ -80,9 +81,9 @@ const updateForm = async(req,res)=>{
 // delete form
 const deleteForm = async(req,res)=>{
     try{
-        const {id} =req.params;
-        const deletedForm = await Form.findByIdAndDelete(id);
-        res.status(200).json(deleteForm)
+        const {formId} =req.params;
+        const deletedForm = await Form.findByIdAndDelete(formId);
+        res.status(200).json(deletedForm)
     }catch(e){
             res.status(500).json({ message: e.message });
 
