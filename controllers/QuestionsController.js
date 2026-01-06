@@ -19,7 +19,7 @@ const createQuestion= async(req , res)=>{
                   return res.status(400).json({ message: 'options are required for choice questions' });
 
         }
-        const question = {type,text,options:options.map(o=>{text:o}),required:!!required}
+        const question = {type,text,options:options.map(o=>({text:o})),required:!!required}
         form.questions.push(question);
         await form.save();
         res.status(201).json(form.questions[form.questions.length - 1]);
@@ -61,12 +61,14 @@ const updateQuestion = async(req,res)=>{
 // delete question
 const DeleteQuestion = async(req,res)=>{
     try{
-        const {formID,id:questionId} = req.params;
-        const form = await Form.findById(formID);
+        const {formId,questionId} = req.params;
+        const form = await Form.findById(formId);
+        console.log("from delte fid:",formId)
         if (form.creatorId.toString() !== req.user.id) return res.status(403).json({ message: 'Forbidden' });
         const q = form.questions.id(questionId)
+        console.log("the questions is:"+q)
             if (!q) return res.status(404).json({ message: 'Question not found' });
-        q.remove();
+form.questions.pull({ _id: questionId });
         await form.save()
 
  res.json({ message: 'Question removed' });
