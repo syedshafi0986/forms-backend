@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 const submitResponse = async(req , res)=>{
      try {
     const { formId } = req.params;
-    const { answers, responderId } = req.body; 
+    const { answers=[], responderId } = req.body; 
      if (!Array.isArray(answers) || answers.length === 0) {
       return res.status(400).json({ message: 'answers are required' });
     }
@@ -17,7 +17,12 @@ const submitResponse = async(req , res)=>{
     if (!form) return res.status(404).json({ message: 'Form not found' });
     if (!form.isActive) return res.status(400).json({ message: 'Form is closed' });
         const questionIds = form.questions.map(q => q._id.toString());
-        for(const a in answers){
+        console.log("qstion ids",questionIds)
+        console.log("answers:",answers)
+        for(const a of answers){
+          console.log("Individul questions:",a)
+
+        
              if (!a.questionId || a.answer === undefined) {
         return res.status(400).json({ message: 'Each answer must have questionId and answer' });
       }
@@ -27,7 +32,7 @@ const submitResponse = async(req , res)=>{
         
         // filtering out the exact required questions 
         const reqr = form.questions.filter(r=>r.required).map(q=>q._id.toString())
-        console.log(reqr)
+        console.log("required",reqr)
        
         for(const r in reqr)
         {
@@ -44,9 +49,9 @@ const submitResponse = async(req , res)=>{
     });
     await resp.save();
     res.status(201).json({ message: 'Response submitted', id: resp._id });
-      }
+  }
      }catch(e){
-         console.error(err);
+         console.error(e);
     res.status(500).json({ message: 'Server error' });
      }
 }

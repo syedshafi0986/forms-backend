@@ -6,7 +6,7 @@ import { createForms,
     getUserForm } from '../controllers/FormController.js';
 import { createQuestion,
     updateQuestion,
-    DeleteQuestion } from '../controllers/QuestionsController.js';
+    DeleteQuestion,getAllQuestions } from '../controllers/QuestionsController.js';
 
 import { requireAuth } from '../middleware/requireAuth.js';
 const router = express.Router();
@@ -38,5 +38,5 @@ router.put('/:formId/questions/:questionId', requireAuth, updateQuestion);
 
 // Delete question
 router.delete('/:formId/questions/:questionId', requireAuth, DeleteQuestion);
-
+router.get("/questions/:formId",getAllQuestions)
 export {router};

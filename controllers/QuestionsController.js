@@ -6,7 +6,7 @@ const createQuestion= async(req , res)=>{
     try{
         const {formId}= req.params;
         const {type,text,options=[],required}= req.body;
-        console.log("the form id:",formId)
+        console.log("the form id from create:",formId)
 
             if (!type || !text) return res.status(400).json({ message: 'type and text are required' });
         const form = await Form.findById(formId)
@@ -36,9 +36,11 @@ const createQuestion= async(req , res)=>{
 const updateQuestion = async(req,res)=>{
     try{
                 const {formId,id:questionId}= req.params;
-
+                console.log("from update:"+formId)
         const {type,text,options,required}= req.body;
                 const form = await Form.findById(formId)
+                console.log("form:"+form)
+
                     if (!form) return res.status(404).json({ message: 'Form not found' });
 
     if (form.creatorId.toString() !== req.user.id) return res.status(403).json({ message: 'Forbidden' });
@@ -78,9 +80,28 @@ form.questions.pull({ _id: questionId });
   }
 
 }
+// get all questions
+const getAllQuestions = async (req, res) => {
+  try {
+    const { formId } = req.params;
+
+    const form = await Form.findById(formId).select("questions");
+
+    if (!form) {
+      return res.status(404).json({ message: "Form not found" });
+    }
+
+    res.status(200).json(form.questions);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 
 export {
     createQuestion,
     updateQuestion,
-    DeleteQuestion
+    DeleteQuestion,
+    getAllQuestions
 }
